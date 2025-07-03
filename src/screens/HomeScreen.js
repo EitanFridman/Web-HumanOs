@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,16 +8,8 @@ export default function HomeScreen() {
   const navigation = useNavigation();
 
   return (
-    <ImageBackground
-      source={require('../../assets/splash-icon.png')}
-      style={styles.container}
-      imageStyle={{ opacity: 0.2 }}
-    >
+    <LinearGradient colors={['#b71c1c', '#f06292']} style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
-        <LinearGradient
-          colors={['rgba(255,0,70,0.6)', 'rgba(200,0,50,0.9)']}
-          style={StyleSheet.absoluteFill}
-        />
         <View style={styles.content}>
           <Text style={styles.title}>HumanOS</Text>
           <Text style={styles.subtitle}>
@@ -35,16 +27,21 @@ export default function HomeScreen() {
           >
             <Text style={styles.buttonText}>Contacto</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { marginTop: 20 }]}
+            onPress={() => navigation.navigate('Participantes')}
+          >
+            <Text style={styles.buttonText}>Participantes</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
-    </ImageBackground>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    resizeMode: 'cover',
   },
   content: {
     flex: 1,
@@ -69,14 +66,18 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 40,
-    backgroundColor: '#ff4257',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 25,
+    backgroundColor: '#e91e63',
+    paddingVertical: 16,
+    paddingHorizontal: 40,
+    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
   },
 });

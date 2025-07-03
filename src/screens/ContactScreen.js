@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import * as MailComposer from 'expo-mail-composer';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ContactScreen() {
@@ -27,11 +26,23 @@ export default function ContactScreen() {
     }
 
     try {
-      await MailComposer.composeAsync({
-        recipients: ['humanos.game@gmail.com'],
-        subject: `Contacto de ${name}`,
-        body: `Nombre: ${name}\nEmail: ${email}\n\n${message}`,
-      });
+      const res = await fetch(
+        'https://formsubmit.co/ajax/humanos.game@gmail.com',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            message,
+          }),
+        }
+      );
+
+      if (!res.ok) throw new Error('Network response was not ok');
 
       Alert.alert(
         '¡Enviado!',
@@ -39,7 +50,10 @@ export default function ContactScreen() {
         [{ text: 'OK', onPress: () => navigation.goBack() }]
       );
     } catch (error) {
-      Alert.alert('Error', 'No se pudo abrir el cliente de correo.');
+      Alert.alert(
+        'Error',
+        'No se pudo enviar el mensaje. Por favor intenta nuevamente.'
+      );
     }
   };
 
@@ -93,7 +107,7 @@ export default function ContactScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 50,
   },
   inner: {
     flex: 1,
@@ -143,10 +157,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 50,
     alignItems: 'center',
-    shadowColor: '#e91e63',
-    shadowOpacity: 0.6,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 0 },
-    shadowRadius: 15,
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
   },
   submitText: {
     color: '#fff',

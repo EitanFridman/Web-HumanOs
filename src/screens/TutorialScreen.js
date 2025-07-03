@@ -55,7 +55,7 @@ export default function TutorialScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 50,
   },
   title: {
     fontSize: 36,
@@ -94,10 +94,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     borderRadius: 50,
     backgroundColor: '#e91e63',
-    shadowColor: '#e91e63',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.7,
-    shadowRadius: 20,
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
   },
   buttonText: {
     color: '#fff',
