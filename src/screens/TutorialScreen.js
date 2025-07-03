@@ -1,51 +1,61 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import Animated, { FadeIn, FadeOut, SlideInDown } from 'react-native-reanimated';
+import Animated, { FadeIn, SlideInDown } from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TutorialScreen() {
   const navigation = useNavigation();
 
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.navigate('Home');
+    }
+  };
+
   return (
-    <ImageBackground
-      source={require('../../assets/favicon.png')}
-      style={styles.container}
-      imageStyle={{ opacity: 0.4 }}
-    >
-      <LinearGradient
-        colors={['rgba(0,0,0,0.6)', 'transparent']}
-        style={StyleSheet.absoluteFill}
-      />
-
-      <Animated.View entering={SlideInDown.duration(1000)}>
-        <Text style={styles.title}>🌟 Bienvenido a HumanOs VR 🌟</Text>
-      </Animated.View>
-
-      <Animated.View entering={FadeIn.delay(500).duration(1000)}>
-        <Text style={styles.subtitle}>
-          Explora el cuerpo humano, combate anomalías y aprende en cada célula.
-        </Text>
-      </Animated.View>
-
-      <Animated.View entering={FadeIn.delay(1000).duration(1000)}>
-        <TouchableOpacity
-          style={styles.glowButton}
-          onPress={() => navigation.navigate('Contacto')}
-        >
-          <Text style={styles.buttonText}>Ir a Contacto</Text>
+    <LinearGradient colors={['#b71c1c', '#f06292']} style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <TouchableOpacity style={styles.back} onPress={handleBack}>
+          <Text style={styles.backText}>Volver</Text>
         </TouchableOpacity>
-      </Animated.View>
-    </ImageBackground>
+
+        <Animated.View entering={SlideInDown.duration(800)}>
+          <Text style={styles.title}>HumanOS - Tutorial</Text>
+        </Animated.View>
+
+        <Animated.View entering={FadeIn.delay(300).duration(800)} style={styles.contentWrap}>
+          <ScrollView contentContainerStyle={styles.scroll}>
+            <Text style={styles.step}>1. Con la mano que quieras apunta hacia "start game" y apreta el gatillo de arriba.</Text>
+            <Text style={styles.step}>2. Cuando cargue date vuelta y acercate a la pelotita que tenes cerca.</Text>
+            <Text style={styles.step}>3. Agarra la pelotita con el botón del medio de alguno de los 2 joysticks.</Text>
+            <Text style={styles.step}>4. Acercate al virus y tirale la pelotita para que impacte y lo elimines.</Text>
+            <Text style={styles.step}>5. Listo, Ganaste!!! Ahora nos podes mandar un comentario para ayudarnos a mejorar.</Text>
+            <TouchableOpacity
+              style={styles.glowButton}
+              onPress={() => navigation.navigate('Contacto')}
+            >
+              <Text style={styles.buttonText}>Ir a Contacto</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </Animated.View>
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#000',
+    padding: 20,
   },
   title: {
     fontSize: 36,
@@ -56,20 +66,35 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
   },
-  subtitle: {
+  contentWrap: {
+    flex: 1,
+    marginTop: 30,
+  },
+  scroll: {
+    paddingHorizontal: 20,
+    paddingBottom: 40,
+  },
+  back: {
+    alignSelf: 'flex-start',
+    margin: 10,
+  },
+  backText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  step: {
     fontSize: 18,
     color: '#ddd',
-    marginTop: 20,
-    textAlign: 'center',
-    paddingHorizontal: 20,
+    marginBottom: 20,
+    lineHeight: 24,
   },
   glowButton: {
     marginTop: 40,
     paddingVertical: 16,
     paddingHorizontal: 40,
     borderRadius: 50,
-    backgroundColor: '#ff0080',
-    shadowColor: '#ff0080',
+    backgroundColor: '#e91e63',
+    shadowColor: '#e91e63',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.7,
     shadowRadius: 20,
